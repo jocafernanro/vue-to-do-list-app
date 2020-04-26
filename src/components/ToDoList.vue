@@ -1,43 +1,69 @@
 <template>
-    <div class="to-do-list">
-        <ToDoItem class="to-do-list"
-                  v-for="item in toDoItemList" :key="item.id"
-                  :isCompleted="item.isCompleted"
-                  :text="item.text"
-                  :isRemove="item.isRemoved"
-                  :id="item.id"
-                  @itemChanged="itemStatusChanged"></ToDoItem>
+    <div class="card">
+        <header class="header" >
+            <div class="header__symbol">a</div>
+            <div class="header__info">
+                <h1 class="header__title">{{ list.name }}</h1>
+                <span class="header__tasks">{{ list.items.length }} tasks</span>
+            </div>
+        </header>
+        <section class="list">
+            <ToDoListItem class="list__item"
+                          v-for="item in list.items" :key="item.id"
+                          :isCompleted="item.isCompleted"
+                          :text="item.text"
+                          :isRemove="item.isRemoved"
+                          :id="item.id"
+                          @itemChanged="itemStatusChanged"></ToDoListItem>
+        </section>
+        <footer><button type="button" @click="addItem">+</button></footer>
     </div>
 </template>
 
 <script>
-    import ToDoItem from "./ToDoItem";
+    import ToDoListItem from "./ToDoListItem";
 
     export default {
         name: "ToDoList",
-        components: {ToDoItem},
+        components: {ToDoListItem},
         data() {
             return {
-                toDoItemList: [
-                    {
-                        id: 0,
-                        isCompleted: false,
-                        text: 'Hacer la compra',
-                        isRemoved: false,
-                    },
-                    {
-                        id: 1,
-                        isCompleted: false,
-                        text: 'Ir al gimnasio',
-                        isRemoved: false,
-                    },
-                    {
-                        id: 2,
-                        isCompleted: false,
-                        text: 'Avisar a mi hermano cuando vengan los niños',
-                        isRemoved: false,
-                    }
-                ]
+                list: {
+                    id: 1,
+                    name: 'Work',
+                    items: [
+                        {
+                            id: 1,
+                            isCompleted: false,
+                            text: 'Hacer la compra',
+                            isRemoved: false,
+                        },
+                        {
+                            id: 2,
+                            isCompleted: false,
+                            text: 'Ir al gimnasio',
+                            isRemoved: false,
+                        },
+                        {
+                            id: 3,
+                            isCompleted: false,
+                            text: 'Avisar a mi hermano cuando vengan los niños',
+                            isRemoved: false,
+                        },
+                        {
+                            id: 4,
+                            isCompleted: false,
+                            text: 'Sacar la basura',
+                            isRemoved: false,
+                        },
+                        {
+                            id: 5,
+                            isCompleted: false,
+                            text: 'Firmar la autorización de la excursión de los niños',
+                            isRemoved: false,
+                        }
+                    ]
+                },
             }
         },
         methods: {
@@ -45,16 +71,57 @@
                 this.toDoItemList.map(o => {
                     if (item.id === o.id) Object.assign(o, {isCompleted: item.status})
                 })
+            },
+            addItem(){
+                const item = {
+                    id: 6,
+                    isCompleted: false,
+                    text: 'Firmar la autorización de la excursión de los niños',
+                    isRemoved: false,
+                };
+                this.list.items.push(item);
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    .to-do-list {
-        display: block;
-        width: 85%;
+    .card{
+        background-color: white;
+        width: 30em;
         margin: 0 auto;
-        cursor: pointer;
+        padding: 2em 0;
+    }
+
+    .header{
+        display: grid;
+        grid-template-columns: 15% 85%;
+        padding: 2em 0;
+        border-bottom: 1px solid var(--color-grey-clear);
+
+        &__title {
+            margin: 0 0 .3em 0;
+            padding: 0;
+        }
+
+        &__tasks {
+            color: var(--color-grey-clear);
+        }
+
+
+        &__symbol {
+            justify-self: center;
+        }
+    }
+
+    .list {
+        &__item {
+            display: grid;
+            grid-template-columns: 15% 85%;
+            border-bottom: 1px solid var(--color-grey-clear);
+            padding: 1em 0;
+            cursor: pointer;
+        }
+
     }
 </style>
