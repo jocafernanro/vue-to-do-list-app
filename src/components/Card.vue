@@ -1,18 +1,22 @@
 <template>
     <div class="card">
     <h1 class="card-title">Simple To-Do List App</h1>
-        <ElementList>eee</ElementList>
-
+        <ToDoList>eee</ToDoList>
     </div>
 
 </template>
 
 <script>
-    import ElementList from "./ElementList";
+    import ToDoList from "./ToDoList";
 
     export default {
         name: "Card",
-        components: { ElementList }
+        components: { ToDoList },
+        data() {
+            return {
+                toDoLists: []
+            }
+        }
     }
 </script>
 
