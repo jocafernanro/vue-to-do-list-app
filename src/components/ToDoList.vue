@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <header class="header" >
-            <div class="header__symbol">a</div>
+            <div class="header__symbol"></div>
             <div class="header__info">
                 <h1 class="header__title">{{ list.name }}</h1>
                 <span class="header__tasks">{{ list.items.length }} tasks</span>
@@ -91,13 +91,14 @@
         width: 30em;
         margin: 0 auto;
         padding: 2em 0;
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(230,230,230, 0.7);
     }
 
     .header{
         display: grid;
         grid-template-columns: 15% 85%;
         padding: 2em 0;
-        border-bottom: 1px solid var(--color-grey-clear);
 
         &__title {
             margin: 0 0 .3em 0;
@@ -105,12 +106,20 @@
         }
 
         &__tasks {
-            color: var(--color-grey-clear);
+            color: var(--color-grey);
         }
 
 
         &__symbol {
             justify-self: center;
+            margin-top: .4em;
+            width: 1em;
+            height: 1em;
+            border: double 4px transparent;
+            border-radius: .6em;
+            background-image: linear-gradient(white, white), radial-gradient(circle at top left, #f00,#3020ff);
+            background-origin: border-box;
+            background-clip: content-box, border-box;
         }
     }
 
@@ -118,7 +127,6 @@
         &__item {
             display: grid;
             grid-template-columns: 15% 85%;
-            border-bottom: 1px solid var(--color-grey-clear);
             padding: 1em 0;
             cursor: pointer;
         }
