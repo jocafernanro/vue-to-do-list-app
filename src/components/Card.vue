@@ -35,7 +35,8 @@
         &-title {
             font-size: 20px;
             text-align: center;
-            color: var(--color-red);
+            font-weight: var(--font-weight-regular);
+            color: var(--color-pink);
         }
     }
 </style>

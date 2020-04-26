@@ -22,6 +22,7 @@ export default {
     --color-magenta: #C06C84;
     --color-purple: #6C5B7B;
     --color-blue: #355C7D;
+    --color-grey-clear: #cccccc;
     --gradient-main: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(108,91,123,1) 35%, rgba(246,114,128,1) 68%, rgba(248,177,149,1) 100%);
 
     --font-weight-regular: 500;

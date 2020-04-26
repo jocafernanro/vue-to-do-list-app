@@ -1,11 +1,11 @@
 <template>
-    <label class="todo-list-container" :for="id">
-        <span class="todo-list-container__text">{{ text }}</span>
+    <label :class="['todo-list-container', this.isCompleted && 'item-checked']" :for="id">
         <input class="todo-list-container__checkbox"
                type="checkbox"
                :id="id"
                v-model="itemStatus"
                @change="itemStatusChanged()">
+        <span class="todo-list-container__text">{{ text }}</span>
         <span class="todo-list-container__custom-checkbox"></span>
     </label>
 </template>
@@ -45,14 +45,21 @@
     .todo-list-container {
         display: block;
         position: relative;
-        padding-left: 35px;
+        padding: .8em 1em .8em 3em;
         margin-bottom: 12px;
         cursor: pointer;
-        font-size: 22px;
+        font-size: 1.1em;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
+        border-radius: .5em;
+        letter-spacing: .05em;
+        color: #6C5B7B;
+
+        &:hover{
+            background-color: aliceblue;
+        }
     }
 
     /* Hide the browser's default checkbox */
@@ -67,26 +74,22 @@
     /* Create a custom checkbox */
     .todo-list-container__custom-checkbox {
         position: absolute;
-        top: 0;
-        left: 0;
-        height: 25px;
-        width: 25px;
-        background-color: #eee;
+        top: 0.8em;
+        left: 0.8em;
+        height: 1.2em;
+        width:1.2em;
+        border-radius: 0.2em;
+        border: 1px solid var(--color-pink);
     }
 
     /* On mouse-over, add a grey background color */
     .todo-list-container:hover input ~ .todo-list-container__custom-checkbox {
-        background-color: #ccc;
+        background-color: #eeeeee;
     }
 
     /* When the checkbox is checked, add a blue background */
     .todo-list-container input:checked ~ .todo-list-container__custom-checkbox {
-        background-color: #2196F3;
-    }
-
-    .todo-list-container__checkbox:checked ~ .todo-list-container {
-        color: red;
-        text-decoration:line-through;
+        background-color: var(--color-pink-clear);
     }
 
     /* Create the checkmark/indicator (hidden when not checked) */
@@ -103,15 +106,20 @@
 
     /* Style the checkmark/indicator */
     .todo-list-container .todo-list-container__custom-checkbox:after {
-        left: 9px;
-        top: 5px;
-        width: 5px;
-        height: 10px;
+        top: 0.3em;
+        left: 0.4em;
+        width: 0.2em;
+        height: .4em;
         border: solid white;
         border-width: 0 3px 3px 0;
         -webkit-transform: rotate(45deg);
         -ms-transform: rotate(45deg);
         transform: rotate(45deg);
+    }
+
+    .item-checked {
+        text-decoration: line-through;
+
     }
 
 

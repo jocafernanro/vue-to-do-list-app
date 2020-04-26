@@ -30,6 +30,12 @@
                         isCompleted: false,
                         text: 'Ir al gimnasio',
                         isRemoved: false,
+                    },
+                    {
+                        id: 2,
+                        isCompleted: false,
+                        text: 'Avisar a mi hermano cuando vengan los niños',
+                        isRemoved: false,
                     }
                 ]
             }
@@ -47,7 +53,7 @@
 <style lang="scss" scoped>
     .to-do-list {
         display: block;
-        width: 80%;
+        width: 85%;
         margin: 0 auto;
         cursor: pointer;
     }
