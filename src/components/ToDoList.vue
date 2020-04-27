@@ -87,16 +87,17 @@
 <style lang="scss" scoped>
     .card{
         background-color: white;
-        width: 30em;
+        width: 90%;
+        max-width: 25em;
         margin: 0 auto;
         padding: 2em 0;
-        border-radius: 24px;
+        border-radius: 1.5em;
         box-shadow: 0 20px 50px rgba(230,230,230, 0.7);
     }
 
     .header{
         display: grid;
-        grid-template-columns: 15% 85%;
+        grid-template-columns: 20% 80%;
         padding: 2em 0;
 
         &__title {
