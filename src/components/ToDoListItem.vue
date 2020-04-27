@@ -1,13 +1,12 @@
 <template>
-    <label :class="['list-item', this.isCompleted && 'item-checked']" :for="id">
-        <input class="list-item__checkbox"
-               type="checkbox"
-               :id="id"
-               v-model="itemStatus"
-               @change="itemStatusChanged()">
-        <span class="list-item__text">{{ text }}</span>
-        <span class="list-item__custom-checkbox"></span>
-    </label>
+        <div class="list-item">
+            <input class="list-item__checkbox"
+                   type="checkbox"
+                   :id="id"
+                   v-model="itemStatus"
+                   @change="itemStatusChanged()">
+            <label class="list-item__text" :for="id">{{ text }}</label>
+        </div>
 </template>
 
 <script>
@@ -34,9 +33,61 @@
 
 <style lang="scss" scoped>
     .list-item{
+        padding: 1em 0 1em 1.8em;
+        cursor: pointer;
         &__checkbox {
-            justify-self: center;
+
         }
     }
+
+    .list-item {
+        display: flex;
+
+        input[type="checkbox"] {
+            opacity: 0;
+            position: absolute;
+            width: 0;
+            height: 0;
+            z-index: -1;
+            &:checked {
+                + label:after {
+                    content: "";
+                }
+            }
+        }
+
+        .list-item__text {
+            position: relative;
+            display: inline-block;
+            padding-left: 3em;
+            cursor: pointer;
+
+            &:before,
+            &:after {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            &:before {
+                content: "";
+                display: inline-block;
+                height: 16px;
+                width: 16px;
+                border: 1px solid;
+            }
+            &:after {
+                content: none;
+                height: 5px;
+                width: 9px;
+                border-left: 2px solid;
+                border-bottom: 2px solid;
+                transform: rotate(-45deg);
+                left: 4px;
+                top: 4px;
+            }
+        }
+    }
+
 
 </style>
