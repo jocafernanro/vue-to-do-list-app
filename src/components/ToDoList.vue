@@ -8,8 +8,7 @@
             </div>
         </header>
         <section class="list">
-            <ToDoListItem class="list__item"
-                          v-for="item in list.items" :key="item.id"
+            <ToDoListItem v-for="item in list.items" :key="item.id"
                           :isCompleted="item.isCompleted"
                           :text="item.text"
                           :isRemove="item.isRemoved"
@@ -68,7 +67,7 @@
         },
         methods: {
             itemStatusChanged(item) {
-                this.toDoItemList.map(o => {
+                this.list.items.map(o => {
                     if (item.id === o.id) Object.assign(o, {isCompleted: item.status})
                 })
             },
@@ -121,15 +120,5 @@
             background-origin: border-box;
             background-clip: content-box, border-box;
         }
-    }
-
-    .list {
-        &__item {
-            display: grid;
-            grid-template-columns: 15% 85%;
-            padding: 1em 0;
-            cursor: pointer;
-        }
-
     }
 </style>
