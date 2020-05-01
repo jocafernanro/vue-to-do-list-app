@@ -7,7 +7,7 @@
                 <div class="">
                     <span class="header__tasks">{{ list.items.length }} tasks</span>
                     <span class="header__tasks">{{ remaining }} remaining</span>
-                    <span class="header__tasks header__tasks--completed">{{ completed }} completed</span>
+                    <span :class="['header__tasks', completed !== 0 && 'header__tasks--completed']">{{ completed }} completed</span>
                 </div>
             </div>
         </header>
@@ -122,6 +122,7 @@
             color: var(--color-grey);
             &--completed{
                 color: var(--color-green-lighter);
+                transition: ease .5s;
             }
         }
 
@@ -184,9 +185,11 @@
             border-radius: 1.2em;
             width: 3em;
             height: 3em;
+            box-shadow: 0 0 1em var(--color-blue) ;
+            outline: none !important;
 
             &:hover {
-                background-color: rgba(86,0,243, 0.8);
+                font-size: 16px;
             }
 
             &:active {
