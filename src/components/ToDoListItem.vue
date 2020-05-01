@@ -1,12 +1,12 @@
 <template>
-        <div class="list-item">
+        <label :for="id" class="list-item">
             <input class="list-item__checkbox"
                    type="checkbox"
                    :id="id"
                    v-model="itemStatus"
                    @change="itemStatusChanged()">
             <label class="list-item__text" :for="id">{{ text }}</label>
-        </div>
+        </label>
 </template>
 
 <script>
@@ -33,7 +33,7 @@
 
 <style lang="scss" scoped>
     .list-item{
-        padding: 1em 0 1em 1.8em;
+        padding: .8em 2.5em .8em 1.8em;
         cursor: pointer;
         &__checkbox {
 
@@ -53,6 +53,16 @@
                 + label:after {
                     content: "";
                 }
+
+                + label:before{
+                   display: none;
+                }
+
+                + label {
+                    text-decoration: line-through;
+                    color: var(--color-green-lighter);
+                    transition: ease .5s;
+                }
             }
         }
 
@@ -61,6 +71,7 @@
             display: inline-block;
             padding-left: 3em;
             cursor: pointer;
+            transition: ease 2s;
 
             &:before,
             &:after {
@@ -72,9 +83,9 @@
             &:before {
                 content: "";
                 display: inline-block;
-                height: 16px;
+                height: 9px;
                 width: 16px;
-                border: 1px solid;
+                border-bottom: 2px solid;
             }
             &:after {
                 content: none;
