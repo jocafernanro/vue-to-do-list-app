@@ -19,16 +19,22 @@
                           :id="item.id"
                           @itemChanged="itemStatusChanged"></ToDoListItem>
         </section>
-        <footer class="footer"><button class="footer__button" type="button" @click="addItem">+</button></footer>
+        <transition name="slide-in-blurred-top">
+            <section v-if="showAddNewItemModal" class="dialog">
+                <AddToDo @addNewTask="addNewItem" @closeAddNewItemModal="closeAddNewItemModal"></AddToDo>
+            </section>
+        </transition>
+        <footer class="footer"><button class="footer__button" type="button" @click="showNewItemModal">+</button></footer>
     </div>
 </template>
 
 <script>
     import ToDoListItem from "./ToDoListItem";
+    import AddToDo from "./AddToDo";
 
     export default {
         name: "ToDoList",
-        components: {ToDoListItem},
+        components: {ToDoListItem, AddToDo},
         data() {
             return {
                 list: {
@@ -67,6 +73,7 @@
                         }
                     ]
                 },
+                showAddNewItemModal: false
             }
         },
         methods: {
@@ -75,14 +82,22 @@
                     if (item.id === o.id) Object.assign(o, {isCompleted: item.status})
                 })
             },
-            addItem(){
-                const item = {
-                    id: 6,
+            showNewItemModal() {
+                this.showAddNewItemModal = true
+            },
+            addNewItem(item){
+                if (!item || typeof item === undefined) return;
+                const newItem = {
+                    id: this.list.items.length + 1,
                     isCompleted: false,
-                    text: 'Firmar la autorización de la excursión de los niños',
+                    text: item.name,
                     isRemoved: false,
                 };
-                this.list.items.push(item);
+                this.list.items.push(newItem);
+                this.showAddNewItemModal = false
+            },
+            closeAddNewItemModal() {
+                this.showAddNewItemModal = false
             }
         },
         computed: {
@@ -98,13 +113,18 @@
 
 <style lang="scss" scoped>
     .card{
+        position: absolute;
         background-color: white;
         width: 90%;
         max-width: 25em;
-        margin: 0 auto;
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
         padding: 2em 0;
         border-radius: 1.5em;
         box-shadow: 0 1.2em 3em rgba(230,230,230, 0.7);
+        overflow: hidden;
     }
 
     .header{
@@ -173,6 +193,14 @@
         }
     }
 
+    .dialog {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: black;
+        top: 0;
+    }
+
     .footer {
         padding: 1em 0 0 2em;
         height: 2.5em;
@@ -197,5 +225,117 @@
             }
         }
     }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
+    }
+
+    .slide-in-blurred-top-enter, .slide-in-blurred-top-enter-active, .slide-in-blurred-top-leave-active {
+        -webkit-animation: slide-in-blurred-top 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+        animation: slide-in-blurred-top 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+    }
+
+    .slide-in-blurred-top-leave-to, .slide-in-blurred-top-leave-active {
+        -webkit-animation: slide-out-blurred-top 0.45s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
+        animation: slide-out-blurred-top 0.45s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
+    }
+
+
+    /**
+     * ----------------------------------------
+     * animation slide-in-blurred-top
+     * ----------------------------------------
+     */
+    @-webkit-keyframes slide-in-blurred-top {
+        0% {
+            -webkit-transform: translateY(-1000px) scaleY(2.5) scaleX(0.2);
+            transform: translateY(-1000px) scaleY(2.5) scaleX(0.2);
+            -webkit-transform-origin: 50% 0%;
+            transform-origin: 50% 0%;
+            -webkit-filter: blur(40px);
+            filter: blur(40px);
+            opacity: 0;
+        }
+        100% {
+            -webkit-transform: translateY(0) scaleY(1) scaleX(1);
+            transform: translateY(0) scaleY(1) scaleX(1);
+            -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+        }
+    }
+    @keyframes slide-in-blurred-top {
+        0% {
+            -webkit-transform: translateY(-1000px) scaleY(2.5) scaleX(0.2);
+            transform: translateY(-1000px) scaleY(2.5) scaleX(0.2);
+            -webkit-transform-origin: 50% 0%;
+            transform-origin: 50% 0%;
+            -webkit-filter: blur(40px);
+            filter: blur(40px);
+            opacity: 0;
+        }
+        100% {
+            -webkit-transform: translateY(0) scaleY(1) scaleX(1);
+            transform: translateY(0) scaleY(1) scaleX(1);
+            -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+        }
+    }
+
+    /**
+     * ----------------------------------------
+     * animation slide-out-blurred-top
+     * ----------------------------------------
+     */
+    @-webkit-keyframes slide-out-blurred-top {
+        0% {
+            -webkit-transform: translateY(0) scaleY(1) scaleX(1);
+            transform: translateY(0) scaleY(1) scaleX(1);
+            -webkit-transform-origin: 50% 0%;
+            transform-origin: 50% 0%;
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+        }
+        100% {
+            -webkit-transform: translateY(-1000px) scaleY(2) scaleX(0.2);
+            transform: translateY(-1000px) scaleY(2) scaleX(0.2);
+            -webkit-transform-origin: 50% 0%;
+            transform-origin: 50% 0%;
+            -webkit-filter: blur(40px);
+            filter: blur(40px);
+            opacity: 0;
+        }
+    }
+    @keyframes slide-out-blurred-top {
+        0% {
+            -webkit-transform: translateY(0) scaleY(1) scaleX(1);
+            transform: translateY(0) scaleY(1) scaleX(1);
+            -webkit-transform-origin: 50% 0%;
+            transform-origin: 50% 0%;
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+        }
+        100% {
+            -webkit-transform: translateY(-1000px) scaleY(2) scaleX(0.2);
+            transform: translateY(-1000px) scaleY(2) scaleX(0.2);
+            -webkit-transform-origin: 50% 0%;
+            transform-origin: 50% 0%;
+            -webkit-filter: blur(40px);
+            filter: blur(40px);
+            opacity: 0;
+        }
+    }
+
+
 
 </style>
