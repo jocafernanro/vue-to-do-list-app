@@ -111,7 +111,7 @@
         }
 
         &__remove {
-            color: var(--color-pink);
+            color: red;
             transition: ease 1s;
             align-self: flex-start;
             padding: .9em 2em 0 0;
