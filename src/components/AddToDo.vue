@@ -5,7 +5,8 @@
         <input :class="['modal__name', error.onEmptyTaskName && 'modal__name--error']" placeholder="task name" type="text" v-model="name">
         <span v-if="error.onEmptyTaskName" class="modal__error">Enter a valid task name</span>
         <select :class="['modal__list', error.onEmptyListName && 'modal__list--error']" name="add-new-item" v-model="list">
-            <option selected>{{ this.listName }}</option>
+            <option value="" selected disabled hidden>Select a task...</option>
+            <option >{{ this.listName }}</option>
         </select>
         <span v-if="error.onEmptyListName" class="modal__error">Enter a valid list</span>
         <button class="modal__button" type="button" @click="addNewItem"> Add task</button>
