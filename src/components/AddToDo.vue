@@ -2,10 +2,12 @@
     <div class="modal">
         <font-awesome-icon class="modal__close" icon="times" @click="closeAddNewItemModal"/>
         <h2 class="modal__title">Add new task</h2>
-        <input class="modal__name" placeholder="task name" type="text" v-model="name">
-        <select class="modal__list" name="add-new-item" v-model="list">
-            <option selected>Work</option>
+        <input :class="['modal__name', error.onEmptyTaskName && 'modal__name--error']" placeholder="task name" type="text" v-model="name">
+        <span v-if="error.onEmptyTaskName" class="modal__error">Enter a valid task name</span>
+        <select :class="['modal__list', error.onEmptyListName && 'modal__list--error']" name="add-new-item" v-model="list">
+            <option selected>{{ this.listName }}</option>
         </select>
+        <span v-if="error.onEmptyListName" class="modal__error">Enter a valid list</span>
         <button class="modal__button" type="button" @click="addNewItem"> Add task</button>
     </div>
 </template>
@@ -13,18 +15,32 @@
 <script>
     export default {
         name: "AddToDo",
+        props: {
+          listName: String
+        },
         data() {
             return {
                 name: '',
-                list: ''
+                list: '',
+                error: {
+                    onEmptyTaskName: false,
+                    onEmptyListName: false
+                }
+
             }
         },
         methods: {
             addNewItem() {
-                this.$emit('addNewTask', {name: this.name, list: this.list });
+                !!this.name && !!this.list
+                    ? this.$emit('addNewTask', {name: this.name, list: this.list })
+                    : this.manageError();
             },
             closeAddNewItemModal() {
                 this.$emit('closeAddNewItemModal')
+            },
+            manageError() {
+                this.error.onEmptyTaskName = !this.name;
+                this.error.onEmptyListName = !this.list;
             }
         }
     }
@@ -32,7 +48,7 @@
 
 <style lang="scss" scoped>
     .modal {
-        background-color: #f3f3f3;
+        background-color: white;
         width: 100%;
         height: 100%;
         opacity: 1;
@@ -46,12 +62,13 @@
 
         &__name {
             color: var(--color-grey);
-            margin: 0 0 1em 0;
+            margin: 0;
             border: none;
             padding: 1em;
             width: 60%;
             display: block;
-            border-radius: 1em;
+            border-radius: 1.5em;
+            box-shadow: 0 3px 6px var(--color-grey-lighter), 0 3px 6px var(--color-grey-lighter);
             outline: none !important;
             &::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
                 color: var(--color-grey);;
@@ -65,26 +82,38 @@
             &::-ms-input-placeholder { /* Microsoft Edge */
                 color: var(--color-grey);;
             }
+
+            &--error {
+                border: 1px solid red;
+            }
         }
+
         &__list {
-            margin: 0 0 1em 0;
+            margin: 1em 0 0 0;
             width: 68%;
             padding: 1em;
             border: none;
-            border-radius: 1em;
+            border-radius: 1.5em;
+            box-shadow: 0 3px 6px var(--color-grey-lighter), 0 3px 6px var(--color-grey-lighter);
             display: block;
             outline: none !important;
             color: var(--color-grey);
+
+            &--error {
+                border: 1px solid red;
+            }
         }
+
         &__button {
-            margin: 0 0 1em 0;
+            margin: 1em 0 1em 0;
             border: none;
-            border-radius: 1em;
             padding: 1em;
             background-color: var(--color-green);
             color: white;
             outline: none !important;
             cursor: pointer;
+            border-radius: 1.3em;
+            box-shadow: 0 0 1em var(--color-green) ;
             &:hover {
                 font-size: 17px;
             }
@@ -93,9 +122,19 @@
             }
 
         }
-        &__close {
-            cursor: pointer;
 
+        &__close {
+            position: absolute;
+            top: 11%;
+            right: 18%;
         }
+
+        &__error {
+            color: red;
+            font-size: 0.6em;
+            display: block;
+            margin: 1em 0;
+        }
+
     }
 </style>

@@ -21,7 +21,7 @@
         </section>
         <transition name="slide-in-blurred-top">
             <section v-if="showAddNewItemModal" class="dialog">
-                <AddToDo @addNewTask="addNewItem" @closeAddNewItemModal="closeAddNewItemModal"></AddToDo>
+                <AddToDo @addNewTask="addNewItem" @closeAddNewItemModal="closeAddNewItemModal" :listName="this.list.name"></AddToDo>
             </section>
         </transition>
         <footer class="footer"><button class="footer__button" type="button" @click="showNewItemModal">+</button></footer>
@@ -39,7 +39,7 @@
             return {
                 list: {
                     id: 1,
-                    name: 'Work',
+                    name: 'Personal',
                     items: [
                         {
                             id: 1,

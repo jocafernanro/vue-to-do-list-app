@@ -35,7 +35,8 @@
         --color-gradient-radial: radial-gradient(#90f1efff, #ffd6e0ff, #ffef9fff, #c1fba4ff, #7bf1a8ff);
 
         --color-grey: #bfbfbf;
-        --color-grey-clear: #f3f3f3;
+        --color-grey-light: #f2f2f2;
+        --color-grey-lighter: #f3f3f3;
 
         --font-weight-regular: 500;
         --font-weight-bold: 700;
