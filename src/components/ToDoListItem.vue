@@ -8,7 +8,9 @@
                    @change="itemStatusChanged()">
             <label class="list-item__text" :for="id">{{ text }}</label>
         </label>
-        <font-awesome-icon v-if="isCompleted" class="list-item__remove" icon="minus" @click="removeItem"/>
+        <transition name="slide-blurred-left">
+            <font-awesome-icon v-if="isCompleted" class="list-item__remove" icon="minus" @click="removeItem"/>
+        </transition>
     </div>
 </template>
 
@@ -47,7 +49,7 @@
     }
 
     .list-item {
-        padding: .8em 2em .8em 1.8em;
+        padding: .8em 3em .8em 1.8em;
         cursor: pointer;
         display: flex;
         width: 100%;
@@ -70,7 +72,7 @@
 
                 + label {
                     text-decoration: line-through;
-                    color: var(--color-green-lighter);
+                    color: var(--color-grey-light);
                     transition: ease .5s;
                 }
             }
@@ -111,13 +113,106 @@
         }
 
         &__remove {
-            color: red;
+            color: var(--color-red);
             transition: ease 1s;
             align-self: flex-start;
             padding: .9em 2em 0 0;
             cursor: pointer;
         }
 
+    }
+
+
+    /* Animations */
+    .slide-blurred-left-enter, .slide-blurred-left-enter-active {
+        -webkit-animation: slide-in-blurred-left 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+        animation: slide-in-blurred-left 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+    }
+    .slide-blurred-left-leave-to, .slide-blurred-left-leave-active {
+        -webkit-animation: slide-out-blurred-left 0.45s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
+        animation: slide-out-blurred-left 0.45s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
+    }
+
+    @-webkit-keyframes slide-in-blurred-left {
+        0% {
+            -webkit-transform: translateX(-1000px) scaleX(2.5) scaleY(0.2);
+            transform: translateX(-1000px) scaleX(2.5) scaleY(0.2);
+            -webkit-transform-origin: 100% 50%;
+            transform-origin: 100% 50%;
+            -webkit-filter: blur(40px);
+            filter: blur(40px);
+            opacity: 0;
+        }
+        100% {
+            -webkit-transform: translateX(0) scaleY(1) scaleX(1);
+            transform: translateX(0) scaleY(1) scaleX(1);
+            -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+        }
+    }
+    @keyframes slide-in-blurred-left {
+        0% {
+            -webkit-transform: translateX(-1000px) scaleX(2.5) scaleY(0.2);
+            transform: translateX(-1000px) scaleX(2.5) scaleY(0.2);
+            -webkit-transform-origin: 100% 50%;
+            transform-origin: 100% 50%;
+            -webkit-filter: blur(40px);
+            filter: blur(40px);
+            opacity: 0;
+        }
+        100% {
+            -webkit-transform: translateX(0) scaleY(1) scaleX(1);
+            transform: translateX(0) scaleY(1) scaleX(1);
+            -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+        }
+    }
+
+    @-webkit-keyframes slide-out-blurred-left {
+        0% {
+            -webkit-transform: translateX(0) scaleY(1) scaleX(1);
+            transform: translateX(0) scaleY(1) scaleX(1);
+            -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+        }
+        100% {
+            -webkit-transform: translateX(-1000px) scaleX(2) scaleY(0.2);
+            transform: translateX(-1000px) scaleX(2) scaleY(0.2);
+            -webkit-transform-origin: 100% 50%;
+            transform-origin: 100% 50%;
+            -webkit-filter: blur(40px);
+            filter: blur(40px);
+            opacity: 0;
+        }
+    }
+    @keyframes slide-out-blurred-left {
+        0% {
+            -webkit-transform: translateX(0) scaleY(1) scaleX(1);
+            transform: translateX(0) scaleY(1) scaleX(1);
+            -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+        }
+        100% {
+            -webkit-transform: translateX(-1000px) scaleX(2) scaleY(0.2);
+            transform: translateX(-1000px) scaleX(2) scaleY(0.2);
+            -webkit-transform-origin: 100% 50%;
+            transform-origin: 100% 50%;
+            -webkit-filter: blur(40px);
+            filter: blur(40px);
+            opacity: 0;
+        }
     }
 
 

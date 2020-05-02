@@ -22,18 +22,7 @@
         --color-yellow: #ffef9fff;
         --color-green-lighter: #c1fba4ff;
         --color-green: #7bf1a8ff;
-
-        /* GRADIENT */
-        --color-gradient-top: linear-gradient(0deg, #90f1efff, #ffd6e0ff, #ffef9fff, #c1fba4ff, #7bf1a8ff);
-        --color-gradient-right: linear-gradient(90deg, #90f1efff, #ffd6e0ff, #ffef9fff, #c1fba4ff, #7bf1a8ff);
-        --color-gradient-bottom: linear-gradient(180deg, #90f1efff, #ffd6e0ff, #ffef9fff, #c1fba4ff, #7bf1a8ff);
-        --color-gradient-left: linear-gradient(270deg, #90f1efff, #ffd6e0ff, #ffef9fff, #c1fba4ff, #7bf1a8ff);
-        --color-gradient-top-right: linear-gradient(45deg, #90f1efff, #ffd6e0ff, #ffef9fff, #c1fba4ff, #7bf1a8ff);
-        --color-gradient-bottom-right: linear-gradient(135deg, #90f1efff, #ffd6e0ff, #ffef9fff, #c1fba4ff, #7bf1a8ff);
-        --color-gradient-top-left: linear-gradient(225deg, #90f1efff, #ffd6e0ff, #ffef9fff, #c1fba4ff, #7bf1a8ff);
-        --color-gradient-bottom-left: linear-gradient(315deg, #90f1efff, #ffd6e0ff, #ffef9fff, #c1fba4ff, #7bf1a8ff);
-        --color-gradient-radial: radial-gradient(#90f1efff, #ffd6e0ff, #ffef9fff, #c1fba4ff, #7bf1a8ff);
-
+        --color-red: #EE4540;
         --color-grey: #bfbfbf;
         --color-grey-light: #f2f2f2;
         --color-grey-lighter: #f3f3f3;
