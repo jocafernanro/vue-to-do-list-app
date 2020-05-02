@@ -1,6 +1,8 @@
 <template>
     <div class="card">
-        <header class="header" >
+
+        <!--  Header Section  -->
+        <header class="header">
             <div class="header__symbol"></div>
             <div class="header__info">
                 <h1 class="header__title">{{ list.name }}</h1>
@@ -11,20 +13,32 @@
                 </div>
             </div>
         </header>
+
+        <!--  List Section  -->
         <section class="list">
-            <ToDoListItem v-for="item in list.items" :key="item.id"
-                          :isCompleted="item.isCompleted"
-                          :text="item.text"
-                          :isRemove="item.isRemoved"
-                          :id="item.id"
-                          @itemChanged="itemStatusChanged"></ToDoListItem>
+            <transition-group name="slide-blurred-left">
+                <ToDoListItem v-for="item in list.items" :key="item.id"
+                              :isCompleted="item.isCompleted"
+                              :text="item.text"
+                              :isRemove="item.isRemoved"
+                              :id="item.id"
+                              @itemChanged="itemStatusChanged"
+                              @removeItem="removeItem"></ToDoListItem>
+            </transition-group>
         </section>
+
+        <!--   Add New Item Modal   -->
         <transition name="slide-in-blurred-top">
             <section v-if="showAddNewItemModal" class="dialog">
-                <AddToDo @addNewTask="addNewItem" @closeAddNewItemModal="closeAddNewItemModal" :listName="this.list.name"></AddToDo>
+                <AddToDo @addNewTask="addNewItem" @closeAddNewItemModal="closeAddNewItemModal"
+                         :listName="this.list.name"></AddToDo>
             </section>
         </transition>
-        <footer class="footer"><button class="footer__button" type="button" @click="showNewItemModal">+</button></footer>
+
+        <!--  Footer/Button section   -->
+        <footer class="footer">
+            <button class="footer__button" type="button" @click="showNewItemModal">+</button>
+        </footer>
     </div>
 </template>
 
@@ -85,7 +99,7 @@
             showNewItemModal() {
                 this.showAddNewItemModal = true
             },
-            addNewItem(item){
+            addNewItem(item) {
                 if (!item || typeof item === undefined) return;
                 const newItem = {
                     id: this.list.items.length + 1,
@@ -98,6 +112,9 @@
             },
             closeAddNewItemModal() {
                 this.showAddNewItemModal = false
+            },
+            removeItem(itemId) {
+                this.list.items = this.list.items.filter(item => Number(item.id) !== Number(itemId))
             }
         },
         computed: {
@@ -112,7 +129,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .card{
+    .card {
         position: absolute;
         background-color: white;
         width: 90%;
@@ -123,11 +140,11 @@
         margin-right: auto;
         padding: 2em 0;
         border-radius: 1.5em;
-        box-shadow: 0 1.2em 3em rgba(230,230,230, 0.7);
+        box-shadow: 0 1.2em 3em rgba(230, 230, 230, 0.7);
         overflow: hidden;
     }
 
-    .header{
+    .header {
         display: grid;
         grid-template-columns: 20% 80%;
         padding: 2em 0;
@@ -140,7 +157,8 @@
         &__tasks {
             padding: 0 .5em 0 0;
             color: var(--color-grey);
-            &--completed{
+
+            &--completed {
                 color: var(--color-green-lighter);
                 transition: ease .5s;
             }
@@ -162,6 +180,7 @@
     .list {
         overflow-y: scroll;
         height: 20em;
+
         &::-webkit-scrollbar {
             width: .5em;
             height: .5em;
@@ -204,6 +223,7 @@
     .footer {
         padding: 1em 0 0 2em;
         height: 2.5em;
+
         &__button {
             cursor: pointer;
             font-size: 15px;
@@ -213,7 +233,7 @@
             border-radius: 1.2em;
             width: 3em;
             height: 3em;
-            box-shadow: 0 0 1em var(--color-blue) ;
+            box-shadow: 0 0 1em var(--color-blue);
             outline: none !important;
 
             &:hover {
@@ -229,11 +249,13 @@
     .fade-enter-active, .fade-leave-active {
         transition: opacity .5s;
     }
-    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+    {
         opacity: 0;
     }
 
-    .slide-in-blurred-top-enter, .slide-in-blurred-top-enter-active, .slide-in-blurred-top-leave-active {
+    .slide-in-blurred-top-enter, .slide-in-blurred-top-enter-active {
         -webkit-animation: slide-in-blurred-top 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
         animation: slide-in-blurred-top 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
     }
@@ -241,6 +263,16 @@
     .slide-in-blurred-top-leave-to, .slide-in-blurred-top-leave-active {
         -webkit-animation: slide-out-blurred-top 0.45s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
         animation: slide-out-blurred-top 0.45s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
+    }
+
+    .slide-blurred-left-enter, .slide-blurred-left-enter-active {
+        -webkit-animation: slide-in-blurred-left 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+        animation: slide-in-blurred-left 0.6s cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+    }
+
+    .slide-blurred-left-leave-to, .slide-blurred-left-leave-active {
+        -webkit-animation: slide-out-blurred-left 0.45s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
+        animation: slide-out-blurred-left 0.45s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
     }
 
 
@@ -269,6 +301,7 @@
             opacity: 1;
         }
     }
+
     @keyframes slide-in-blurred-top {
         0% {
             -webkit-transform: translateY(-1000px) scaleY(2.5) scaleX(0.2);
@@ -315,6 +348,7 @@
             opacity: 0;
         }
     }
+
     @keyframes slide-out-blurred-top {
         0% {
             -webkit-transform: translateY(0) scaleY(1) scaleX(1);
@@ -335,6 +369,100 @@
             opacity: 0;
         }
     }
+
+
+    /**
+     * ----------------------------------------
+     * animation slide-in-blurred-left
+     * ----------------------------------------
+     */
+    @-webkit-keyframes slide-in-blurred-left {
+        0% {
+            -webkit-transform: translateX(-1000px) scaleX(2.5) scaleY(0.2);
+            transform: translateX(-1000px) scaleX(2.5) scaleY(0.2);
+            -webkit-transform-origin: 100% 50%;
+            transform-origin: 100% 50%;
+            -webkit-filter: blur(40px);
+            filter: blur(40px);
+            opacity: 0;
+        }
+        100% {
+            -webkit-transform: translateX(0) scaleY(1) scaleX(1);
+            transform: translateX(0) scaleY(1) scaleX(1);
+            -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+        }
+    }
+    @keyframes slide-in-blurred-left {
+        0% {
+            -webkit-transform: translateX(-1000px) scaleX(2.5) scaleY(0.2);
+            transform: translateX(-1000px) scaleX(2.5) scaleY(0.2);
+            -webkit-transform-origin: 100% 50%;
+            transform-origin: 100% 50%;
+            -webkit-filter: blur(40px);
+            filter: blur(40px);
+            opacity: 0;
+        }
+        100% {
+            -webkit-transform: translateX(0) scaleY(1) scaleX(1);
+            transform: translateX(0) scaleY(1) scaleX(1);
+            -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+        }
+    }
+
+    /**
+     * ----------------------------------------
+     * animation slide-out-blurred-left
+     * ----------------------------------------
+     */
+    @-webkit-keyframes slide-out-blurred-left {
+        0% {
+            -webkit-transform: translateX(0) scaleY(1) scaleX(1);
+            transform: translateX(0) scaleY(1) scaleX(1);
+            -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+        }
+        100% {
+            -webkit-transform: translateX(-1000px) scaleX(2) scaleY(0.2);
+            transform: translateX(-1000px) scaleX(2) scaleY(0.2);
+            -webkit-transform-origin: 100% 50%;
+            transform-origin: 100% 50%;
+            -webkit-filter: blur(40px);
+            filter: blur(40px);
+            opacity: 0;
+        }
+    }
+    @keyframes slide-out-blurred-left {
+        0% {
+            -webkit-transform: translateX(0) scaleY(1) scaleX(1);
+            transform: translateX(0) scaleY(1) scaleX(1);
+            -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+        }
+        100% {
+            -webkit-transform: translateX(-1000px) scaleX(2) scaleY(0.2);
+            transform: translateX(-1000px) scaleX(2) scaleY(0.2);
+            -webkit-transform-origin: 100% 50%;
+            transform-origin: 100% 50%;
+            -webkit-filter: blur(40px);
+            filter: blur(40px);
+            opacity: 0;
+        }
+    }
+
 
 
 

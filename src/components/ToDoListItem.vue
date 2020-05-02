@@ -1,4 +1,5 @@
 <template>
+    <div class="list-item-container">
         <label :for="id" class="list-item">
             <input class="list-item__checkbox"
                    type="checkbox"
@@ -7,6 +8,8 @@
                    @change="itemStatusChanged()">
             <label class="list-item__text" :for="id">{{ text }}</label>
         </label>
+        <font-awesome-icon v-if="isCompleted" class="list-item__remove" icon="minus" @click="removeItem"/>
+    </div>
 </template>
 
 <script>
@@ -26,22 +29,28 @@
         methods: {
             itemStatusChanged() {
                 this.$emit('itemChanged', {id: this.id, status: this.itemStatus});
+            },
+            removeItem() {
+                this.$emit('removeItem', this.id)
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    .list-item{
-        padding: .8em 2.5em .8em 1.8em;
-        cursor: pointer;
-        &__checkbox {
 
-        }
+    .list-item-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
     }
 
     .list-item {
+        padding: .8em 2em .8em 1.8em;
+        cursor: pointer;
         display: flex;
+        width: 100%;
 
         input[type="checkbox"] {
             opacity: 0;
@@ -49,13 +58,14 @@
             width: 0;
             height: 0;
             z-index: -1;
+
             &:checked {
                 + label:after {
                     content: "";
                 }
 
-                + label:before{
-                   display: none;
+                + label:before {
+                    display: none;
                 }
 
                 + label {
@@ -66,7 +76,7 @@
             }
         }
 
-        .list-item__text {
+        &__text {
             position: relative;
             display: inline-block;
             padding-left: 3em;
@@ -87,6 +97,7 @@
                 width: 16px;
                 border-bottom: 2px solid;
             }
+
             &:after {
                 content: none;
                 height: 5px;
@@ -98,6 +109,15 @@
                 top: 4px;
             }
         }
+
+        &__remove {
+            color: var(--color-pink);
+            transition: ease 1s;
+            align-self: flex-start;
+            padding: .9em 2em 0 0;
+            cursor: pointer;
+        }
+
     }
 
 

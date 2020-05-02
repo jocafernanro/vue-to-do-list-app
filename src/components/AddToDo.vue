@@ -2,12 +2,22 @@
     <div class="modal">
         <font-awesome-icon class="modal__close" icon="times" @click="closeAddNewItemModal"/>
         <h2 class="modal__title">Add new task</h2>
-        <input :class="['modal__name', error.onEmptyTaskName && 'modal__name--error']" placeholder="Task name" type="text" v-model="name">
+
+        <input :class="['modal__name', error.onEmptyTaskName && 'modal__name--error']"
+               placeholder="Task name"
+               type="text"
+               v-model="name"
+               @change="detectIfValueIsFilled">
+
         <span v-if="error.onEmptyTaskName" class="modal__error">Enter a valid task name</span>
-        <select :class="['modal__list', error.onEmptyListName && 'modal__list--error']" name="add-new-item" v-model="list">
+        <select :class="['modal__list', error.onEmptyListName && 'modal__list--error']"
+                name="add-new-item"
+                v-model="list"
+                @change="detectIfValueIsFilled">
             <option value="" selected disabled hidden>Select a task...</option>
-            <option >{{ this.listName }}</option>
+            <option>{{ this.listName }}</option>
         </select>
+
         <span v-if="error.onEmptyListName" class="modal__error">Enter a valid list</span>
         <button class="modal__button" type="button" @click="addNewItem"> Add task</button>
     </div>
@@ -42,6 +52,11 @@
             manageError() {
                 this.error.onEmptyTaskName = !this.name;
                 this.error.onEmptyListName = !this.list;
+            },
+            detectIfValueIsFilled() {
+                if (this.name) this.error.onEmptyTaskName = false;
+                if (this.list) this.error.onEmptyListName = false;
+
             }
         }
     }
