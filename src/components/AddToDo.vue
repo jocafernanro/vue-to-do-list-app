@@ -2,7 +2,7 @@
     <div class="modal">
         <font-awesome-icon class="modal__close" icon="times" @click="closeAddNewItemModal"/>
         <h2 class="modal__title">Add new task</h2>
-        <input :class="['modal__name', error.onEmptyTaskName && 'modal__name--error']" placeholder="task name" type="text" v-model="name">
+        <input :class="['modal__name', error.onEmptyTaskName && 'modal__name--error']" placeholder="Task name" type="text" v-model="name">
         <span v-if="error.onEmptyTaskName" class="modal__error">Enter a valid task name</span>
         <select :class="['modal__list', error.onEmptyListName && 'modal__list--error']" name="add-new-item" v-model="list">
             <option value="" selected disabled hidden>Select a task...</option>
