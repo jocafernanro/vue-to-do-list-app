@@ -1,24 +1,15 @@
 # vue-to-do-list-app
 
-## Project setup
-```
-npm install
-```
+A simple to-do list app made with Vue.js.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## You can check it out working
+Go to: https://todo-list.josematico.com
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### How it looks?
+![Visual demo](demo/demo.gif)
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Some captures
+![Visual demo](demo/1.png)
+![Visual demo](demo/2.png)
+![Visual demo](demo/3.png)
+![Visual demo](demo/4.png)
